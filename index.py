@@ -1,8 +1,8 @@
-import os
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.document_loaders import TextLoader, PyPDFLoader, PyPDFDirectoryLoader, Docx2txtLoader
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores.faiss import FAISS
+import os
 
 
 '''
@@ -71,13 +71,18 @@ class KnowledgeBase():
         self.vector_store.save_local(self.index_path)
         print("Knowledge index created.")
 
-    def search(self, query, num_results=3):
-        results = self.vector_store.similarity_search(query, k=num_results)
+    def get_index(self) -> FAISS:
+        return self.vector_store
+
+    def search(self, query, num_results=3) -> str:
+        embedding_vector = self.embeddings.embed_query(query)  # embeddings.embed_query(query)
+        results = self.vector_store.similarity_search_by_vector(embedding_vector, k=num_results)
+        # results = self.vector_store.similarity_search(query, k=num_results)
         retval = ""
         for i in range(num_results):
             chunk = results[i]
             source = chunk.metadata["source"]
             retval = retval + f"From: {source}\n\n"
             retval = retval + chunk.page_content
-            retval = retval + "\n\n"
+            retval = retval + "---------------------------------------------\n\n"
         return retval
