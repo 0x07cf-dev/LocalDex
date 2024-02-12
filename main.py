@@ -40,8 +40,6 @@ with gr.Blocks() as demo:
     with gr.Row(visible=False) as row1:
         chatbot_box = gr.Chatbot(
             height=600,
-            label="Chat with your Documents",
-            show_label=True,
             show_copy_button=True,
             bubble_full_width=False,
             avatar_images=(None, (os.path.join(os.path.dirname(__file__), "avatar.jpg")))

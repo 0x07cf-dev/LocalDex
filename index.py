@@ -1,7 +1,8 @@
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain_community.document_loaders import TextLoader, PyPDFLoader, PyPDFDirectoryLoader, Docx2txtLoader
+from langchain_community.document_loaders import TextLoader, PyPDFLoader, Docx2txtLoader
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores.faiss import FAISS
+from langchain_core.vectorstores import VectorStoreRetriever
 import os
 
 
@@ -73,6 +74,9 @@ class KnowledgeBase():
 
     def get_index(self) -> FAISS:
         return self.vector_store
+
+    def get_retriever(self, **search_kwargs) -> VectorStoreRetriever:
+        return self.vector_store.as_retriever(**search_kwargs)
 
     def search(self, query, num_results=3) -> str:
         embedding_vector = self.embeddings.embed_query(query)  # embeddings.embed_query(query)
