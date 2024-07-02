@@ -4,26 +4,10 @@ import gradio as gr
 import time
 import os
 
-'''
-    This is a small personal project to learn more about AI and Python.
-    'Cause you don't need to be an astrophysicist to use a telescope:
-
-    https://huggingface.co/docs
-    https://www.gradio.app/docs
-    https://python.langchain.com/docs
-
-
-    I don't have the hardware needed to actually train or run models with many parameters.
-    In fact, until AMD finally releases ROCm for Windows, I am forced to do inference with the CPU.
-
-    Why did I switch to AMD last year? I guess I'll have to wait until 2026.
-'''
-
 data_path = "data/"
 index_path = "faiss_index/"
 knowledge = None
 chatbot = None
-
 
 # Gradio UI
 with gr.Blocks() as demo:
